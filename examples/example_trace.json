@@ -1,0 +1,111 @@
+{
+  "header": {
+    "schema_version": "0.1.0",
+    "signature_algorithm_version": "jcs-sha256-v2",
+    "ignore_list_name": "harness.default",
+    "ignore_list_version": "1.0.0",
+    "run_id": "run-example-001",
+    "trial_id": "trial-example-001",
+    "batch_id": "batch-volume-clamp-example",
+    "agent_id": "coding-agent-example",
+    "model_id": "example-model",
+    "model_version": "1.0.0",
+    "temperature": 0.2,
+    "seed": 42,
+    "prompt_hash": "245eadc55e66f7839090f0f10b799b144a80ed67d5f2cc257042d6724fc2aa1b",
+    "prompt_hash_algorithm": "sha256",
+    "tools": [
+      {
+        "name": "read_file",
+        "description": "Read a file from the local workspace.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        }
+      },
+      {
+        "name": "clamp_volume",
+        "description": "Compute a clamped volume size.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "requested": {
+              "type": "number"
+            },
+            "minimum": {
+              "type": "number"
+            },
+            "step": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "requested",
+            "minimum",
+            "step"
+          ]
+        }
+      }
+    ],
+    "redaction": "none"
+  },
+  "events": [
+    {
+      "seq": 1,
+      "type": "tool_call",
+      "timestamp": "2026-11-11T00:00:01Z",
+      "tool_call_id": "tc-1",
+      "name": "read_file",
+      "arguments": {
+        "path": "/work/src/volume.py"
+      },
+      "call_signature": "read_file:f1c3f5df66bf5b57eaed8795714bc0fd74ba9d5f5315a28794888b0247027392"
+    },
+    {
+      "seq": 2,
+      "type": "tool_result",
+      "timestamp": "2026-11-11T00:00:01Z",
+      "tool_call_id": "tc-1",
+      "status": "ok",
+      "is_error": false,
+      "truncated": false,
+      "duration_ms": 4,
+      "output": "def clamp_volume(requested, minimum, step): ..."
+    },
+    {
+      "seq": 3,
+      "type": "tool_call",
+      "timestamp": "2026-11-11T00:00:02Z",
+      "tool_call_id": "tc-2",
+      "name": "read_file",
+      "arguments": {
+        "path": "/work/tests/test_volume.py"
+      },
+      "call_signature": "read_file:5877ff1c24bd6e8b61920fc678acba4610ff7691c559fde2f29e7d93afa73626"
+    },
+    {
+      "seq": 4,
+      "type": "tool_result",
+      "timestamp": "2026-11-11T00:00:02Z",
+      "tool_call_id": "tc-2",
+      "status": "ok",
+      "is_error": false,
+      "truncated": false,
+      "duration_ms": 3,
+      "output": "def test_clamp_volume_below_minimum(): ..."
+    },
+    {
+      "seq": 5,
+      "type": "message",
+      "timestamp": "2026-11-11T00:00:03Z",
+      "content": "clamp_volume(0.013, 0.01, 0.01) executes at 0.01; it is not refused."
+    }
+  ]
+}

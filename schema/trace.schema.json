@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft-2020-12/schema",
+  "$id": "https://agent-eval-harness.local/schema/trace.schema.json",
+  "title": "Agent run trace",
+  "type": "object",
+  "required": ["header", "events"],
+  "properties": {
+    "header": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "signature_algorithm_version",
+        "run_id",
+        "trial_id",
+        "batch_id",
+        "agent_id",
+        "model_id",
+        "model_version",
+        "prompt_hash",
+        "prompt_hash_algorithm",
+        "tools",
+        "redaction",
+        "ignore_list_name",
+        "ignore_list_version"
+      ],
+      "properties": {
+        "schema_version": { "type": "string" },
+        "signature_algorithm_version": { "type": "string" },
+        "run_id": { "type": "string" },
+        "trial_id": { "type": "string" },
+        "batch_id": { "type": "string" },
+        "agent_id": { "type": "string" },
+        "model_id": { "type": "string" },
+        "model_version": { "type": "string" },
+        "temperature": { "type": "number" },
+        "seed": { "type": "integer" },
+        "prompt_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "prompt_hash_algorithm": { "type": "string", "enum": ["sha256"] },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "parameters": { "type": "object" }
+            }
+          }
+        },
+        "redaction": { "type": "string", "enum": ["none", "partial", "full"] },
+        "redacted_fields": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "field names / categories removed by redaction, in the order removed"
+        },
+        "ignore_list_name": { "type": "string" },
+        "ignore_list_version": { "type": "string" },
+        "source_format": { "type": "string" },
+        "source_file_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "importer_version": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["seq", "type", "timestamp"],
+        "properties": {
+          "seq": { "type": "integer" },
+          "type": { "type": "string", "enum": ["tool_call", "tool_result", "message", "replay-miss"] },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "tool_call_id": { "type": "string" },
+          "name": { "type": "string" },
+          "arguments": {},
+          "call_signature": { "type": "string", "pattern": "^.+:[0-9a-f]{64}$" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}
