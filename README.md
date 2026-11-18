@@ -10,9 +10,9 @@
 
 The boundary is deliberate, and it is the same one this project's safety rules were built on:
 
-**Public (this repository):** the evaluation methodology · the trace format and its JSON Schema · the grading and regression design · summarized, verified results from the first live runs.
+**Public (this repository):** the evaluation methodology · the trace format and its JSON Schema · the grading and regression design · summarized, verified results from the first live runs (figures as pass/fail brackets/counts only).
 
-**Private (never published):** the working implementation and its full history · the live task battery (publishing it would train the subjects) · real recorded traces · operational detail.
+**Private (never published):** the working implementation and its full history · the live task battery (publishing it would train the subjects) · real recorded traces · operational detail · point scores, score distributions, grader weights, and task texts/prompts.
 
 ## Project at a glance
 
@@ -27,10 +27,15 @@ The boundary is deliberate, and it is the same one this project's safety rules w
 ## How to read this repository
 
 - **README.md** (this file) — what the harness is and the results it stands on.
+- **[docs/results.md](docs/results.md)** — published result brackets/counts (pass/fail only).
+- **[docs/task-taxonomy.md](docs/task-taxonomy.md)** — evaluation task types (no task texts/prompts).
+- **[docs/synthetic-worked-example.md](docs/synthetic-worked-example.md)** — a fully synthetic worked example trace (invented), labeled synthetic.
+- **[docs/measured-results.md](docs/measured-results.md)** — the first live findings and what they establish (qualitative notes).
 - **[docs/trace-format.md](docs/trace-format.md)** — the trace format in plain language: how a recorded agent run is represented.
 - **[schema/trace.schema.json](schema/trace.schema.json)** — the JSON Schema (draft 2020-12) for one recorded run.
 - **[examples/example_trace.json](examples/example_trace.json)** — a small hand-written trace that validates against the schema.
-- **[docs/measured-results.md](docs/measured-results.md)** — the first live results, and what they actually establish.
+
+Result figures are published as pass/fail brackets, not point scores, to preserve battery validity.
 
 ---
 
@@ -51,7 +56,9 @@ The boundary is deliberate, and it is the same one this project's safety rules w
 
 ## What it has measured so far
 
-The first live results are deliberately unflattering — that is what the harness is for. In brief: the pinned reference local model **fails the first graded task** (it computed the correct value and still produced a failing trace); identical-seed determinism runs **diverged**, and the divergence is documented rather than smoothed over; and a trial lost to a machine reboot mid-run is preserved as an *abandoned* record. Detail and caveats: [docs/measured-results.md](docs/measured-results.md).
+Published figures are given as pass/fail brackets/counts only in [docs/results.md](docs/results.md) (Canary, F1, F2 per-task and Stage A totals). Qualitative findings and caveats from early live runs are in [docs/measured-results.md](docs/measured-results.md).
+
+Result figures are published as pass/fail brackets, not point scores, to preserve battery validity.
 
 ## Roadmap
 
